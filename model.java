@@ -1,0 +1,8 @@
+
+
+public class model{
+
+	model(){
+	}
+
+}

@@ -9,21 +9,21 @@ package korsak.controller;
  *
  * @author lebrenzi
  */
+import java.sql.SQLException;
 import javax.swing.SwingUtilities;
 
 public class controller{
 private model database;
 private view application;
-	controller(){
-		this.database = null;
-		this.application = new view("Facturer");
+	controller() throws SQLException{
+		this.database = new model();
 	}
 	
-	public void sendMessage(String message){
-		this.application.printMessage(message);
+	public String sendMessage(String tableName) throws SQLException{
+		return this.database.returnAllFromTable(tableName);
 	}
 
-	controller(model m, view v){
+	controller(model m){
 		this.database = m;
 
 	}

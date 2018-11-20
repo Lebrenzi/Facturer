@@ -19,7 +19,10 @@ import javax.swing.JButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import java.awt.BorderLayout;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -45,14 +48,15 @@ private JTextArea log_test;
 private JTextArea dataBaseLog;
 private JButton button;
 private JButton basket;
+private JButton message;
 private JTextField enterMessage;
 
 
 //Main constuctor
-view(String title)
+view(String title) throws SQLException
 {	
 	super(title);
-        
+        c = new controller();
 	//Two working panes
 	topButtonPanel = new JPanel();
 	bottomOperationalPanel = new JPanel();
@@ -60,6 +64,7 @@ view(String title)
 	//Initializing elements
 	button = new JButton("Search");
         basket = new JButton("To the basket");
+        message = new JButton("Retrieve message");
 	log_test = new JTextArea(50,20);
        	dataBaseLog = new JTextArea(50,20);
 	enterMessage = new JTextField(20);
@@ -96,6 +101,8 @@ public void setTopOperationalPanel()
 	topButtonPanel.add(button);
         
 	topButtonPanel.add(basket);
+        
+        topButtonPanel.add(message);
 	//topButtonPanel.add(int_1, BorderLayout.NORTH);
 	//topButtonPanel.add(int_2, BorderLayout.SOUTH);
 	topButtonPanel.add(enterMessage);
@@ -104,6 +111,14 @@ public void setTopOperationalPanel()
         });
         basket.addActionListener((e) -> {
             basketFrame bf = new basketFrame("Basket");
+        });
+        message.addActionListener((e) -> {
+            try {
+                this.printMessage();
+            } catch (SQLException ex) {
+                this.dataBaseLog.append("Something goes wrong\n");
+                Logger.getLogger(view.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
 }
 
@@ -125,9 +140,10 @@ public void setBottomOperationalPanel()
 
 
 
-void printMessage(String message){
-	
+void printMessage() throws SQLException{
+	String message = c.sendMessage("Rura");
 	this.dataBaseLog.append(message);
+        this.dataBaseLog.append("\n");
 
 }
 

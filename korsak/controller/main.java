@@ -9,14 +9,15 @@ package korsak.controller;
  *
  * @author lebrenzi
  */
+import java.sql.SQLException;
 import javax.swing.SwingUtilities;
 
 
 public class main{
 
-	public static void main(String args[])
+	public static void main(String args[]) throws SQLException
 	{
-			controller Handler = new controller();
+			view app = new view("Facturer");
 	}
 }
 
